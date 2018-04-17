@@ -88,7 +88,39 @@
         testResults('2 is not equal to 1 compare', 2 === 1);
         testResults('El nombre está en Mayúsculas', 'JUAN' === changeNameToUppercase('juan'));
         testResults('el año es 2018', greeting('juan').indexOf('2018') > -1);
+        var obj = {
+          items: [{
+            volumeInfo: {
+              title: 'juan',
+              subtitle: 'rodriguez'
+            }
+          }]
+        }
+
+        testResults('el title es juan,rodriguez', mapVolumes(obj) === 'juan,rodriguez');
       }
+
+      /* ======================= WEB SERVICE LOGIC =================== */
+
+
+      var googleBooksApi = "https://www.googleapis.com/books/v1/volumes?q=";
+      var query = "gabriel garcia marquez";
+      $.ajax({
+        url: googleBooksApi + query,
+        success: function (volumes) {
+          console.log('vols=', volumes);
+          mapVolumes(volumes)
+        }
+      });
+
+      function mapVolumes(volumes) {
+        console.log('Volumes found = ', volumes.totalItems);
+        var r = volumes.items[0].volumeInfo.title + "," + volumes.items[0].volumeInfo.subtitle;
+        console.log("RESULTADO= " + r);
+        return r;
+      }
+
+
       (function () {
         testTheTruth();
       })()
